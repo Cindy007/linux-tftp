@@ -1,0 +1,28 @@
+Linux tftp 使用方法 
+1、  安装tftp-server 
+sudo    apt-get   install    tftpd-hpa  服务器端 
+sudo apt-get install tftp-hpa（如果不需要客户端可以不安装） 
+2、  配置tftp服务器 
+sudo vi /etc/default/tftpd-hpa 
+将原来的内容修改为 
+TFTP_USERNAME=”tftp” 
+TFTP_ADDRESS=”0.0.0.0:69″ 
+TFTP_DIRECTORY=”tftp 根目录”  #服务器目录,需要设置权限为
+777,chomd 777 
+TFTP_OPTIONS=”-l -c –s” 
+RUN_DAEMON=”yes” 
+3、  重启服务器 
+sudo service tftpd-hpa restart 
+4、  测试 
+在tftp根目录中建立测试文件如  在/va r/lib/tftpd/test.txt 
+连接好网线，在arm端下载文件： 
+tftp    –gr    test.txt  服务器ip（主机ip） 
+ 
+之后ls，可看见arm端已经有test.txt 
+ 
+ 
+注意： 
+1、本文档提供最便捷安装方式，如果无法上网，请事先下载好安装
+包，再安装 
+2、如果下载文件时失败，先检查主机与arm之间网络是否已经通，
+再检查主机端tftpd服务是否已经开启 
